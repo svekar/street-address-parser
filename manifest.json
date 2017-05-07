@@ -1,0 +1,8 @@
+{
+  "runtime": {
+      "majorVersion": "8"
+  },
+  "command": "java -jar street-address-parser-1.0-SNAPSHOT.jar",
+  "startupTime": 30,
+  "shutdownTime": 0
+} 

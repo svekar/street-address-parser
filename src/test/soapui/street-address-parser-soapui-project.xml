@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="06e42961-4159-4087-9c3c-365b67c88b8c" activeEnvironment="Default" name="street-address-parser" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface xsi:type="con:RestService" id="f4052aad-cdc5-4484-b0d1-f6010714b0c7" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" basePath="street-address-parser" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache type="TEXT" rootPart=""/>
+    <con:endpoints>
+      <con:endpoint>${#Project#protocol}://${#Project#host}:${#Project#port}</con:endpoint>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="street-addresses" path="/street-addresses" id="29603373-ca7e-4933-971b-20dbc78f6106">
+      <con:settings/>
+      <con:parameters/>
+      <con:resource name="{stringRepr}" path="{stringRepr}" id="a997e1fa-7780-4af0-ae0f-90d6a185026d">
+        <con:settings/>
+        <con:parameters>
+          <con:parameter>
+            <con:name>stringRepr</con:name>
+            <con:value>stringRepr</con:value>
+            <con:style>TEMPLATE</con:style>
+            <con:default>stringRepr</con:default>
+          </con:parameter>
+        </con:parameters>
+        <con:method name="Method 1" id="2e1a2320-6698-43b4-a81f-3fe6bd66c9a6" method="GET">
+          <con:settings/>
+          <con:parameters/>
+          <con:representation type="FAULT">
+            <con:mediaType>text/html;charset=ISO-8859-1</con:mediaType>
+            <con:status>404</con:status>
+            <con:params/>
+            <con:element>html</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType>application/json</con:mediaType>
+            <con:status>200</con:status>
+            <con:params/>
+            <con:element xmlns:str="http://localhost/street-addresses/Street%20123">str:Response</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:request name="Request 1" id="71ff26c8-2db8-4c24-88f6-4def330a15d0" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/street-addresses/Street%20123</con:originalUri>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="stringRepr" value="Street 123" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:request>
+        </con:method>
+      </con:resource>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="cb538d01-910e-49b9-be98-ffe9547f5c96" name="TestSuite 1">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="d9590a94-c7cf-41da-86ca-879055f179bc" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Address wo number" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="restrequest" name="REST Request" id="6edcd897-4e22-4051-9088-bad740a84dc4">
+        <con:settings/>
+        <con:config service="http://localhost:8080" methodName="Method 1" resourcePath="street-address-parser/street-addresses/{stringRepr}" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="REST Request" id="62511588-0f7a-471d-a26b-d30ec9d85172" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#protocol}://${#Project#host}:${#Project#port}</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/street-address-parser/street-addresses/Stortorvet</con:originalUri>
+            <con:assertion type="Response SLA Assertion" id="3ae7f769-c299-4b64-a683-9f6a95abc688" name="Response SLA">
+              <con:configuration>
+                <SLA>30000</SLA>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="Valid HTTP Status Codes" id="5d63ca5b-3479-40e6-9f4d-151c52ae19a9" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Match" id="5ce86e99-3b08-46f3-b67c-781bc1632d97" name="JsonPath Match">
+              <con:configuration>
+                <path>$</path>
+                <content>{"name":"Stortorvet","no":null}</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="stringRepr" value="Stortorvet" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+    </con:testCase>
+    <con:testCase id="b77445f0-793a-4bfa-af72-6b896fe28d49" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Address and Number" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="restrequest" name="REST Request" id="00d713c1-9a2a-4a00-8d27-00c9357937c7">
+        <con:settings/>
+        <con:config service="http://localhost:8080" methodName="Method 1" resourcePath="street-address-parser/street-addresses/{stringRepr}" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="REST Request" id="62511588-0f7a-471d-a26b-d30ec9d85172" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>${#Project#protocol}://${#Project#host}:${#Project#port}</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/street-address-parser/street-addresses/Stortorvet</con:originalUri>
+            <con:assertion type="Response SLA Assertion" id="3ae7f769-c299-4b64-a683-9f6a95abc688" name="Response SLA">
+              <con:configuration>
+                <SLA>30000</SLA>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="Valid HTTP Status Codes" id="5d63ca5b-3479-40e6-9f4d-151c52ae19a9" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Match" id="5ce86e99-3b08-46f3-b67c-781bc1632d97" name="JsonPath Match">
+              <con:configuration>
+                <path>$</path>
+                <content>{"name":"Karl Johans Gate","no":5}</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="stringRepr" value="Karl Johans Gate 5" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:loadTest id="075dec27-9f44-4555-9eb6-ce48e16d412c" name="LoadTest 1">
+        <con:settings/>
+        <con:threadCount>10</con:threadCount>
+        <con:startDelay>0</con:startDelay>
+        <con:sampleInterval>250</con:sampleInterval>
+        <con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed>
+        <con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange>
+        <con:historyLimit>-1</con:historyLimit>
+        <con:testLimit>60</con:testLimit>
+        <con:limitType>TIME</con:limitType>
+        <con:loadStrategy>
+          <con:type>Simple</con:type>
+          <con:config>
+            <testDelay>0</testDelay>
+            <randomFactor>0.5</randomFactor>
+          </con:config>
+        </con:loadStrategy>
+        <con:assertion type="Step Status" name="Step Status"/>
+        <con:maxAssertionErrors>100</con:maxAssertionErrors>
+        <con:cancelExcessiveThreads>true</con:cancelExcessiveThreads>
+        <con:strategyInterval>500</con:strategyInterval>
+      </con:loadTest>
+      <con:properties/>
+    </con:testCase>
+    <con:properties/>
+  </con:testSuite>
+  <con:properties>
+    <con:property>
+      <con:name>port</con:name>
+      <con:value>443</con:value>
+    </con:property>
+    <con:property>
+      <con:name>protocol</con:name>
+      <con:value>https</con:value>
+    </con:property>
+    <con:property>
+      <con:name>host</con:name>
+      <con:value>streetaddressparser-a474133.apaas.us2.oraclecloud.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>xhost</con:name>
+      <con:value>localhost</con:value>
+    </con:property>
+    <con:property>
+      <con:name>xprotocol</con:name>
+      <con:value>http</con:value>
+    </con:property>
+    <con:property>
+      <con:name>xport</con:name>
+      <con:value>8080</con:value>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+</con:soapui-project>
