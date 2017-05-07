@@ -1,5 +1,5 @@
 # street-address-parser
-Simple street address parser (draft) with a REST API, for testing Oracle Application Container Cloud.dfasdfs
+Simple street address parser (draft) with a REST API, for testing Oracle Application Container Cloud.
 ## Building and running
 ### Building
 $ mvn package
@@ -104,7 +104,7 @@ $ curl -v -X PUT -u "$USER:$PASSWORD" -H "X-ID-TENANT-NAME:$ID_DOMAIN" -H "Conte
 Lookup the API's WADL at: 
 https://streetaddressparser-a474133.apaas.us2.oraclecloud.com/street-address-parser/application.wadl
 
-Run some GET querie with curl, e.g:
+Run some GET queries with curl, e.g:
 ```
 $ curl -X GET https://streetaddressparser-a474133.apaas.us2.oraclecloud.com/street-address-parser/street-addresses/Stortorvet%201
 {"name":"Stortorvet","no":1}
