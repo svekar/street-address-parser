@@ -76,7 +76,7 @@ $ curl -v -X PUT -H "X-Auth-Token: $AUTH_TOKEN" https://uscom-central-1.storage.
 ```
 #### Upload the deployment unit to the Storage Cloud
 ```
-$ curl -v -X PUT -H "X-Auth-Token: $AUTH_TOKEN" https://uscom-central-1.storage.oraclecloud.com/v1/Storage-$ID_DOMAIN/StreetAddresParser/street-address-parser-1.0-SNAPSHOT.zip -T ~/target/street-address-parser-1.0-SNAPSHOT.zip
+$ curl -v -X PUT -H "X-Auth-Token: $AUTH_TOKEN" https://uscom-central-1.storage.oraclecloud.com/v1/Storage-$ID_DOMAIN/StreetAddressParser/street-address-parser-1.0-SNAPSHOT.zip -T target/street-address-parser-1.0-SNAPSHOT.zip
 ...
 HTTP/1.1 201 Created
 ...
