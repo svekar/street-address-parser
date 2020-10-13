@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -6,12 +7,13 @@
 	<groupId>org.example</groupId>
 	<artifactId>street-address-parser</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>street-address-parser</name>
 
 	<properties>
-		<jersey.version>2.25</jersey.version>
+		<jersey.version>2.27</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<azure.webapp.maven.plugin.version>1.5.1</azure.webapp.maven.plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -30,7 +32,11 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.16</version>
+			<version>1.18.14</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
@@ -70,7 +76,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
+				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -85,7 +91,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.2.1</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<filters>
@@ -120,7 +126,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.0</version>
 				<configuration>
 					<appendAssemblyId>false</appendAssemblyId>
 					<descriptors>
@@ -135,6 +141,34 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>azure-webapp-maven-plugin</artifactId>
+				<version>${azure.webapp.maven.plugin.version}</version>
+				<configuration>
+					<deploymentType>jar</deploymentType>
+
+					<!-- configure app to run on port 80, required by App Service -->
+					<appSettings>
+						<property>
+							<name>JAVA_OPTS</name>
+							<value>-Dserver.port=80</value>
+						</property>
+						<property>
+							<name>server.port</name>
+							<value>80</value>
+						</property>						
+					</appSettings>
+
+					<!-- Web App information -->
+					<resourceGroup>${project.name}</resourceGroup>
+					<appName>${project.name}</appName>
+					<region>northeurope</region>
+					<pricingTier>F1</pricingTier>
+					<javaVersion>1.8</javaVersion>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

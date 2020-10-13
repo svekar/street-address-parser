@@ -22,12 +22,16 @@ public enum Main {
 	// Base URI the Grizzly HTTP server will listen on
 	public static final String BASE_URI =
 			String.format("http://%s:%s/street-address-parser/",
-					getenvOrDefault("HOSTNAME", DEFAULT_BIND_ADDRESS),
-					getenvOrDefault("PORT", "8080"));
+					getenvOrDefault("server.address", DEFAULT_BIND_ADDRESS),
+					getenvOrDefault("server.port", "8080"));
 
 	private static String getenvOrDefault(String varName, String defaultValue) {
-		String envVarVal = System.getenv(varName);
-		return envVarVal != null ? envVarVal : defaultValue;
+		String envVarVal = System.getProperty(varName);
+		if (envVarVal == null) {
+			envVarVal = System.getenv(varName);
+			return envVarVal != null ? envVarVal : defaultValue;
+		}
+		return envVarVal;
 	}
 
 	/**
@@ -45,6 +49,7 @@ public enum Main {
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI
+		logger.info(BASE_URI);
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI),
 				rc);
 	}
@@ -55,12 +60,18 @@ public enum Main {
 	 * @param args
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
-		HttpServer server = startServer();
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			logger.info("Shutting down Grizzly http server {}.", server);
-			server.shutdown();
-		}));
+	public static void main(String[] args) {
+		try {
+			HttpServer server = startServer();
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+				logger.info("Shutting down Grizzly http server {}.", server);
+				server.shutdown();
+			}));
+			
+		} catch (Throwable e) {
+			logger.error("Cannot start Grizzly HTTP server: ", e);
+			throw e;
+		}
 		logger.info(
 				"Jersey app started with WADL available at "
 						+ "{}application.wadl.",
