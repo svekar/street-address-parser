@@ -43,9 +43,4 @@ public final class StreetAddressResourceTest {
 		assertEquals(expected, streetAddressResource.parseStreetAddress(input));
 	}
 
-	@Test
-	public final void shouldFail() {
-		throw new IllegalStateException("Oh, no!");
-	}
-	
 }
