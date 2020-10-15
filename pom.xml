@@ -13,6 +13,7 @@
 	<properties>
 		<jersey.version>2.27</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<lombok.version>1.18.14</lombok.version>
 		<azure.webapp.maven.plugin.version>1.5.1</azure.webapp.maven.plugin.version>
 	</properties>
 
@@ -32,7 +33,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.14</version>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
@@ -62,15 +63,50 @@
 	</dependencies>
 
 	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.github.spotbugs</groupId>
+					<artifactId>spotbugs-maven-plugin</artifactId>
+					<version>4.0.4</version>
+					<configuration>
+						<plugins>
+							<plugin>
+								<groupId>com.h3xstream.findsecbugs</groupId>
+								<artifactId>findsecbugs-plugin</artifactId>
+								<version>1.10.1</version>
+							</plugin>
+						</plugins>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>3.8.1</version>
 				<inherited>true</inherited>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>14</release>
+					<compilerArgs>
+						<arg>-XDcompilePolicy=simple</arg>
+						<arg>-Xplugin:ErrorProne</arg>
+					</compilerArgs>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>com.google.errorprone</groupId>
+							<artifactId>error_prone_core</artifactId>
+							<version>2.4.0</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -159,7 +195,7 @@
 						<property>
 							<name>server.port</name>
 							<value>80</value>
-						</property>						
+						</property>
 					</appSettings>
 
 					<!-- Web App information -->

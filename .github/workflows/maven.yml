@@ -36,7 +36,7 @@ jobs:
         deduplicate_classes_by_file_name: false
 
     - name: Run SpotBugs from Maven
-      run: mvn --batch-mode com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max
+      run: mvn --batch-mode com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
 
     - name: Publish SpotBugs report
       uses: jwgmeligmeyling/spotbugs-github-action@master
