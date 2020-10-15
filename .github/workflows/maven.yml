@@ -36,10 +36,20 @@ jobs:
         deduplicate_classes_by_file_name: false
 
     - name: Run SpotBugs from Maven
-      run: mvn --batch-mode com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
+      run: mvn --batch-mode ${SPOTBUGS_PLUGIN} ${SPOTBUGS_OPTIONS}
+      env:
+        SPOTBUGS_PLUGIN: com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs
+        SPOTBUGS_OPTIONS: -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
 
     - name: Publish SpotBugs report
       uses: jwgmeligmeyling/spotbugs-github-action@master
       with:
         path: '**/spotbugsXml.xml'
      
+    - name: Run Checkstyle from Maven
+      run: mvn --batch-mode checkstyle:checkstyle
+
+    - name: Publish Checkstyle report
+      uses: jwgmeligmeyling/checkstyle-github-action@master
+      with:
+        path: '**/checkstyle-result.xml'
