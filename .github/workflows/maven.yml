@@ -53,3 +53,11 @@ jobs:
       uses: jwgmeligmeyling/checkstyle-github-action@master
       with:
         path: '**/checkstyle-result.xml'
+        
+    - name: Run PMD from Maven
+      run: mvn --batch-mode pmd:pmd pmd:cpd
+      
+    - name: Publish PMD reports
+    - uses: jwgmeligmeyling/pmd-github-action@master
+      with:
+        path: '**/pmd.xml,**/cpd.xml'
