@@ -58,6 +58,6 @@ jobs:
       run: mvn --batch-mode pmd:pmd pmd:cpd
       
     - name: Publish PMD reports
-    - uses: jwgmeligmeyling/pmd-github-action@master
+      uses: jwgmeligmeyling/pmd-github-action@master
       with:
         path: '**/pmd.xml,**/cpd.xml'
