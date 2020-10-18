@@ -60,5 +60,4 @@ jobs:
     - name: Publish PMD reports
       uses: jwgmeligmeyling/pmd-github-action@master
       with:
-        path: '**/pmd.xml'
-        path: 'target/cpd.xml'
+        path: 'target/??d.xml'
