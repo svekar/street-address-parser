@@ -1,19 +1,19 @@
 package org.example.streetaddressparser;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.ws.rs.client.*;
 
 import org.glassfish.grizzly.http.server.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
-public class StreetAddressResourceIT {
+class StreetAddressResourceIT {
 
-	private HttpServer server;
-	private WebTarget target;
+	private static HttpServer server;
+	private static WebTarget target;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeAll
+	static void setUp() throws Exception {
 		// start the server
 		server = Main.startServer();
 		// create the client
@@ -30,8 +30,8 @@ public class StreetAddressResourceIT {
 		target = c.target(Main.BASE_URI);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterAll
+	static void tearDown() throws Exception {
 		server.shutdownNow();
 	}
 
@@ -39,7 +39,7 @@ public class StreetAddressResourceIT {
 	 * Test to see that the message "Got it!" is sent in the response.
 	 */
 	@Test
-	public void testGetIt() {
+	void testGetIt() {
 		StreetAddress responseMsg = target.path("street-addresses")
 				.path("Street 123").request().get(StreetAddress.class);
 		assertEquals(new StreetAddress("Street", 123), responseMsg);

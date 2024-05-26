@@ -1,46 +1,32 @@
 package org.example.streetaddressparser;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-@RunWith(Parameterized.class)
-public final class StreetAddressResourceTest {
+final class StreetAddressResourceTest {
 
-	// Used only by JUnit (parameterized test).
-	@SuppressWarnings("unused")
-	private final String description;
-	private final String input;
-	private final StreetAddress expected;
-
-	public StreetAddressResourceTest(String description, String input,
-			StreetAddress expected) {
-		this.description = description;
-		this.input = input;
-		this.expected = expected;
+	@ParameterizedTest(name = "{index}: {0}")
+	@MethodSource("params")
+	private final void testParseStreetAddress(ParseTestParams params) {
+		StreetAddressResource streetAddressResource = new StreetAddressResource();
+		assertEquals(params.expected(), streetAddressResource.parseStreetAddress(params.input()));
 	}
 
-	@Parameters(name = "{index}: {0}")
-	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
-				{"Street name and number", "Gate 1",
-						new StreetAddress("Gate", 1)},
-				{"Place name wo number", "Strawberry Field",
-						new StreetAddress("Strawberry Field", null)},
-				{"Missing street name", "42", null},
-		});
+	private static record ParseTestParams(String description, String input, StreetAddress expected) {
 	}
 
-	@Test
-	public final void testParseStreetAddress() {
-		StreetAddressResource streetAddressResource =
-				new StreetAddressResource();
-		assertEquals(expected, streetAddressResource.parseStreetAddress(input));
+	private static Stream<ParseTestParams> params() {
+		return Stream.of(
+				new ParseTestParams("Street name and number", "Gate 1", new StreetAddress("Gate", 1)),
+				new ParseTestParams("Place name wo number", "Strawberry Field",
+						new StreetAddress("Strawberry Field", null)),
+				new ParseTestParams("Missing street name", "42", null));
 	}
 
 }

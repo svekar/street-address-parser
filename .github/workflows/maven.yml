@@ -4,60 +4,53 @@ on: push
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 14
+      - uses: actions/checkout@v4.1.6
+      - name: Set up JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: "zulu"
+          java-version: 21
+          cache: "maven"
 
-    - name: Cache local Maven repository
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+      - name: Build with Maven
+        run: mvn --batch-mode --strict-checksums package
 
-    - name: Build with Maven
-      run: mvn --batch-mode --strict-checksums package
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2.16.1
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: Unit Test Results
+          files: target/surefire-reports/**/*.xml
+          report_individual_runs: true
+          deduplicate_classes_by_file_name: false
 
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1.37
-      if: always()
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        check_name: Unit Test Results
-        files: target/surefire-reports/**/*.xml
-        report_individual_runs: true
-        deduplicate_classes_by_file_name: false
+      - name: Run SpotBugs from Maven
+        run: mvn --batch-mode ${SPOTBUGS_PLUGIN} ${SPOTBUGS_OPTIONS}
+        env:
+          SPOTBUGS_PLUGIN: com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs
+          SPOTBUGS_OPTIONS: -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
 
-    - name: Run SpotBugs from Maven
-      run: mvn --batch-mode ${SPOTBUGS_PLUGIN} ${SPOTBUGS_OPTIONS}
-      env:
-        SPOTBUGS_PLUGIN: com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs
-        SPOTBUGS_OPTIONS: -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
+      - name: Publish SpotBugs report
+        uses: jwgmeligmeyling/spotbugs-github-action@master
+        with:
+          path: "**/spotbugsXml.xml"
 
-    - name: Publish SpotBugs report
-      uses: jwgmeligmeyling/spotbugs-github-action@master
-      with:
-        path: '**/spotbugsXml.xml'
-     
-    - name: Run Checkstyle from Maven
-      run: mvn --batch-mode checkstyle:checkstyle
+      - name: Run Checkstyle from Maven
+        run: mvn --batch-mode checkstyle:checkstyle
 
-    - name: Publish Checkstyle report
-      uses: jwgmeligmeyling/checkstyle-github-action@master
-      with:
-        path: '**/checkstyle-result.xml'
-        
-    - name: Run PMD from Maven
-      run: mvn --batch-mode pmd:pmd pmd:cpd
-      
-    - name: Publish PMD reports
-      uses: jwgmeligmeyling/pmd-github-action@master
-      with:
-        path: 'target/??d.xml'
+      - name: Publish Checkstyle report
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: "**/checkstyle-result.xml"
+
+      - name: Run PMD from Maven
+        run: mvn --batch-mode pmd:pmd pmd:cpd
+
+      - name: Publish PMD reports
+        uses: jwgmeligmeyling/pmd-github-action@master
+        with:
+          path: "target/??d.xml"
