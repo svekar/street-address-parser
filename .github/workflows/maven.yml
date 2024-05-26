@@ -31,7 +31,7 @@ jobs:
       - name: Run SpotBugs from Maven
         run: mvn --batch-mode ${SPOTBUGS_PLUGIN} ${SPOTBUGS_OPTIONS}
         env:
-          SPOTBUGS_PLUGIN: com.github.spotbugs:spotbugs-maven-plugin:4.0.4:spotbugs
+          SPOTBUGS_PLUGIN: com.github.spotbugs:spotbugs-maven-plugin:spotbugs
           SPOTBUGS_OPTIONS: -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
 
       - name: Publish SpotBugs report
