@@ -13,7 +13,7 @@
 	<properties>
 		<jersey.version>2.43</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<azure.webapp.maven.plugin.version>1.5.1</azure.webapp.maven.plugin.version>
+		<azure.webapp.maven.plugin.version>2.13.0</azure.webapp.maven.plugin.version>
 		<pmd.version>7.1.0</pmd.version>
 	</properties>
 
