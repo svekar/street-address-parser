@@ -34,7 +34,7 @@
 			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
-				<version>5.10.2</version>
+				<version>5.10.3</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -76,6 +76,16 @@
 				<plugin>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>3.7.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.3.0</version>
+					<configuration>
+						<includes>
+							<include>**/*IT.java</include>
+							<include>**/*Test.java</include>
+						</includes>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
