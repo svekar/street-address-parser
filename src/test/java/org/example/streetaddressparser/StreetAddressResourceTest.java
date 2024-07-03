@@ -13,7 +13,7 @@ final class StreetAddressResourceTest {
 
 	@ParameterizedTest(name = "{index}: {0}")
 	@MethodSource("params")
-	private final void testParseStreetAddress(ParseTestParams params) {
+	final void testParseStreetAddress(ParseTestParams params) {
 		StreetAddressResource streetAddressResource = new StreetAddressResource();
 		assertEquals(params.expected(), streetAddressResource.parseStreetAddress(params.input()));
 	}
