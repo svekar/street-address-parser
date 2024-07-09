@@ -5,9 +5,6 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4.1.7
@@ -23,7 +20,7 @@ jobs:
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.16.1
-        if: always()
+        if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Unit Test Results
@@ -39,6 +36,7 @@ jobs:
 
       - name: Publish SpotBugs report
         uses: jwgmeligmeyling/spotbugs-github-action@master
+        if: ${{ github.actor != 'dependabot[bot]' }}        
         with:
           path: "**/spotbugsXml.xml"
 
@@ -47,6 +45,7 @@ jobs:
 
       - name: Publish Checkstyle report
         uses: jwgmeligmeyling/checkstyle-github-action@master
+        if: ${{ github.actor != 'dependabot[bot]' }}        
         with:
           path: "**/checkstyle-result.xml"
 
@@ -55,5 +54,6 @@ jobs:
 
       - name: Publish PMD reports
         uses: jwgmeligmeyling/pmd-github-action@master
+        if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           path: "target/??d.xml"
