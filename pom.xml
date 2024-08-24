@@ -11,7 +11,7 @@
 	<name>street-address-parser</name>
 
 	<properties>
-		<jersey.version>2.43</jersey.version>
+		<jersey.version>3.0.12</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<azure.webapp.maven.plugin.version>2.13.0</azure.webapp.maven.plugin.version>
 		<pmd.version>7.4.0</pmd.version>
@@ -25,11 +25,6 @@
 				<version>${jersey.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>2.17.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.junit</groupId>
@@ -56,6 +51,11 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-osgi</artifactId>
+			<version>4.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

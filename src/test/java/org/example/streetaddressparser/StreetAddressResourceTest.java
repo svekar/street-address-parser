@@ -2,10 +2,8 @@ package org.example.streetaddressparser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.*;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.*;
 import org.junit.jupiter.params.provider.*;
 

@@ -1,21 +1,24 @@
 package org.example.streetaddressparser;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("street-addresses")
 public class StreetAddressResource {
 
-	private static final Pattern STREET_ADDR_PATTERN =
-			Pattern.compile("(\\D+)(\\s+(\\d+))?");
+	private static final Pattern STREET_ADDR_PATTERN = Pattern.compile("(\\D+)(\\s+(\\d+))?");
 
 	@Path("{stringRepr}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public StreetAddress parseStreetAddress(
-		@PathParam("stringRepr") String address) {
+			@PathParam("stringRepr") String address) {
 		return parse(address);
 	}
 
