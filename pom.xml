@@ -132,6 +132,7 @@
 					<release>21</release>
 					<compilerArgs>
 						<arg>-XDcompilePolicy=simple</arg>
+						<arg>--should-stop=ifError=FLOW</arg>
 						<arg>-Xplugin:ErrorProne</arg>
 					</compilerArgs>
 					<annotationProcessorPaths>
