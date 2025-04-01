@@ -19,7 +19,7 @@ jobs:
         run: mvn --batch-mode --strict-checksums package
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.18.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.19.0
         if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
