@@ -11,9 +11,9 @@ jobs:
       checks: write
 
     steps:
-      - uses: actions/checkout@v6.0.0
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Set up JDK
-        uses: actions/setup-java@v5.2.0
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
           distribution: "zulu"
           java-version: 21
@@ -23,7 +23,7 @@ jobs:
         run: mvn --batch-mode --strict-checksums package
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
         if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
           SPOTBUGS_OPTIONS: -Dspotbugs.xmlOutput=true -Dspotbugs.effort=max -Dspotbugs.threshold=low -Dspotbugs.failOnError=true
 
       - name: Publish SpotBugs report
-        uses: jwgmeligmeyling/spotbugs-github-action@master
+        uses: jwgmeligmeyling/spotbugs-github-action@875e3b6fc5b97deadd8ea150948e53c2d40b13be # master
         if: ${{ github.actor != 'dependabot[bot]' }}        
         with:
           path: "**/spotbugsXml.xml"
@@ -48,7 +48,7 @@ jobs:
         run: mvn --batch-mode checkstyle:checkstyle
 
       - name: Publish Checkstyle report
-        uses: jwgmeligmeyling/checkstyle-github-action@master
+        uses: jwgmeligmeyling/checkstyle-github-action@a12be500c097a5cedab881d4785ef9b4a4d3ee6a # master
         if: ${{ github.actor != 'dependabot[bot]' }}        
         with:
           path: "**/checkstyle-result.xml"
@@ -57,7 +57,7 @@ jobs:
         run: mvn --batch-mode pmd:pmd pmd:cpd
 
       - name: Publish PMD reports
-        uses: jwgmeligmeyling/pmd-github-action@master
+        uses: jwgmeligmeyling/pmd-github-action@1ad8208a5b2f710f350860e730ebe673e58666fa # master
         if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           path: "target/??d.xml"
