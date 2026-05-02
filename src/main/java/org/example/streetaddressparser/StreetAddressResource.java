@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 @Path("street-addresses")
 public class StreetAddressResource {
 
-	private static final Pattern STREET_ADDR_PATTERN = Pattern.compile("(\\D+)(\\s+(\\d+))?");
+	private static final Pattern STREET_ADDR_PATTERN = Pattern.compile("^(\\D+)(\\s+(\\d+))?$");
 
 	@Path("{stringRepr}")
 	@GET
