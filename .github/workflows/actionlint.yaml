@@ -1,4 +1,6 @@
 name: ActionLint
+permissions:
+  contents: read
 
 on:
   push:
